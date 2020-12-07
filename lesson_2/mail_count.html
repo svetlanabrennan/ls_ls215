@@ -9,11 +9,34 @@
 <body>
   <script src="https://dbdwvr6p7sskw.cloudfront.net/210/files/email_data_v2.js"></script>
   <script>
+    const DAYS = ["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"];
+    const MONTHS = ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"];
+
     function mailCount(emailData) {
-      <p>emailData</p>
+      let countEmails = emailData.match(/\#{2}\|{2}\#{2}/g).length + 1;
+      let dates = emailData.match(/\d{2}-\d{2}-\d{4}/g);
+      let datesSorted = dates.sort();
+      let minDate = datesSorted[0];
+      let maxDate = datesSorted[datesSorted.length - 1];
+
+      let minDateConverted = convertDate(minDate);
+      let maxDateConverted = convertDate(maxDate);
+
+      console.log(`Count of Email: ${countEmails}`);
+      console.log(`Date Range: ${minDateConverted} - ${maxDateConverted}`);
     }
 
-    mailCount("https://dbdwvr6p7sskw.cloudfront.net/210/files/email_data_v2.js");
+    function convertDate(string) {
+      let dateObj = new Date(string);
+      let dayOfWeek = DAYS[dateObj.getDay()];
+      let month = MONTHS[dateObj.getMonth()];
+      let date = dateObj.getDate();
+      let year = dateObj.getFullYear();
+      return `${dayOfWeek} ${month} ${date} ${year}`;
+    }
+
+    mailCount(emailData);
+
   </script>
 </body>
 
